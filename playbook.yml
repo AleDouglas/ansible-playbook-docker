@@ -1,0 +1,22 @@
+---
+- name: Automatização do Huawei - Display Version
+  hosts: routers
+  gather_facts: yes
+
+  vars:
+    cli:
+      host: "{{ ansible_host }}"
+      username: "{{ ansible_user }}"
+      password: "{{ ansible_ssh_pass }}"
+      transport: cli
+
+  tasks:
+    - name: run display version on remote devices
+      ce_command:
+        commands: display version
+        provider: "{{ cli }}"
+      register: display_version_output
+
+    - name: Exibir saída do comando
+      debug:
+        var: display_version_output.stdout_lines
